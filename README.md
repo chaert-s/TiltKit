@@ -1,7 +1,7 @@
 ## TiltKit
 
 # Installation
-Copy this repo's link and simply add it to your Swift package dependencies
+Copy this repo's [link](https://github.com/chaert-s/TiltKit) and simply add it to your Swift package dependencies
 
 # Usage example
 Make sure to import TiltKit by adding `import TiltKit` to the top of your file.
@@ -54,7 +54,7 @@ The example above shows the default configuration of the helper.
 
 `supportedOrientations` lets you define what device orientations the user can access.
 
-`updateInterval` specfies the clock speed of the `CMMotionManager`'s updates. Please note that Apple specifies a maximum refresh rate of 100Hz for the accelerometer, so values lower than `0.01` will not do anything. Also, weird things tend to start happening with high refresh rates, so it is advised to keep the value within reason.
+`updateInterval` specfies the clock speed of the `CMMotionManager`'s updates in seconds. Please note that Apple specifies a maximum refresh rate of 100Hz for the accelerometer, so values lower than `0.01` will not do anything. Also, weird things tend to start happening with high refresh rates, so it is advised to keep the value within reason.
 
 # Further information
 I opted for a custom CoreMotion implementation, as `UIDevice.current.beginGeneratingDeviceOrientationNotifications()` didn't work on SwiftUI views for me. Also, with CoreMotion driving the interface changes, they work even when Orientation Lock is on.
