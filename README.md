@@ -4,7 +4,7 @@
 Copy this repo's [link](https://github.com/chaert-s/TiltKit) and simply add it to your Swift package dependencies.
 
 # Usage example
-Make sure to import TiltKit by adding `import TiltKit` to the top of your file.  
+Make sure to import TiltKit by adding `import TiltKit` to the top of your file and only have `portrait` mode selected as available device orientations in your project settings.  
 TiltKit provides a class `DeviceOrientationHelper` that contains `@Published` vars for `degrees` and `radians`. You can use these to drive `.rotationEffect(Angle())` on any SwiftUI elements.  
 
 Here is a possible implementation:  
