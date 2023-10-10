@@ -58,5 +58,6 @@ The example above shows the default configuration of the helper.
 
 # Further information
 I opted for a custom CoreMotion implementation, as `UIDevice.current.beginGeneratingDeviceOrientationNotifications()` didn't work on SwiftUI views for me. Also, with CoreMotion driving the interface changes, they work even when Orientation Lock is on.  
+If you are concerned about creating multiple instances of a `CMMotionManager`, you can use the `.shared` instance of the `DeviceOrientationHelper` that uses all standard settings.   
 This package was inspired by Pablo Dominé who [explains the process here](https://medium.com/@PabloDomine/developing-camille-how-to-determine-device-orientation-in-a-camera-app-4c622d251993).  
 I brought the concepts into SwiftUI and expanded upon the implementation to make it more user friendly.
