@@ -9,5 +9,5 @@ import Foundation
 
 public enum rotationModes{
     case normal
-    case constant
+    case tilt
 }
