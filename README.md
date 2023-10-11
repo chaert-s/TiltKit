@@ -1,12 +1,15 @@
 ## TiltKit
+# About
+TiltKit lets you rotate SwiftUI view elements without changing the entire screen orientation, similarly to the native iOS camera app.
 
 # Installation
 Copy this repo's [link](https://github.com/chaert-s/TiltKit) and simply add it to your Swift package dependencies.
 
 
 # Configuration
-Make sure to import TiltKit by adding `import TiltKit` to the top of your file and only have `portrait` mode selected as available device orientations in your project settings.     
-To use TiltKit the easiest, simply apply `.rotation()` to any view element you want to rotate. Additionally you can choose to pass an argument of `.constant` alongside it which instructs the element to always stay level with the ground.   
+Make sure to import TiltKit by adding `import TiltKit` to the top of your file and only have `portrait` mode selected as available device orientations in your project settings.   
+
+To use TiltKit, simply apply `.rotation()` to any view element you want to rotate. Additionally you can choose to pass an argument of `.constant` alongside it which instructs the element to always stay level with the ground.   
 
 TiltKit also provides a shared instance of the class class `DeviceOrientationHelper` which you can access via `DeviceOrientationHelper.shared()` that contains `@Published` vars for `deviceRotationDegrees` and `deviceRotationRadians`. You can use these to drive `.rotationEffect(Angle())` on any SwiftUI element. This is described in detail below.    
 Though you can still create your own instances of `DeviceOrientationHelper`, it is strongly recommended to use the shared instance throughout your app to avoid multiple instances of CMMotionManager to be active at once. 
