@@ -17,8 +17,17 @@ extension View {
 
 @available(iOS 14.0.0, *)
 struct OrientationRotationModifier: ViewModifier {
+    @State private var radians: Double = 0.0
+
+    init() {
+        _radians = State(initialValue: DeviceOrientationHelper.shared.radians)
+    }
+
     func body(content: Content) -> some View {
-        @StateObject var rotation = DeviceOrientationHelper.shared
-        return content.rotationEffect(.radians(rotation.radians))
+        content
+            .rotationEffect(.radians(radians))
+            .onReceive(DeviceOrientationHelper.shared.$radians) { newRadians in
+                self.radians = newRadians
+            }
     }
 }
