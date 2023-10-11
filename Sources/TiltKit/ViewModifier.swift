@@ -28,7 +28,7 @@ struct OrientationRotationModifier: ViewModifier {
         switch rotationMode {
         case .normal:
             radians = orientationHelper.deviceRotationRadians
-        case .constant:
+        case .tilt:
             radians = orientationHelper.constantRotationRadians
         }
 

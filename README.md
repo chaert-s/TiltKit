@@ -37,7 +37,7 @@ struct RotationDemo: View {
             //This will rotate
             Image(systemName: "checkmark.circle.fill")
                 .foregroundColor(.green)
-                .rotation(.constant)
+                .rotation(.tilt)
             
         }
     }
