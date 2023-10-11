@@ -12,7 +12,7 @@ import SwiftUI
 
 @available(iOS 13.0, *)
 public class DeviceOrientationHelper: ObservableObject {
-    public static let shared = DeviceOrientationHelper() // Singleton is recommended because an app should create only a single instance of the CMMotionManager class.
+    public static var shared = DeviceOrientationHelper() // Singleton is recommended because an app should create only a single instance of the CMMotionManager class.
     
     @Published public var degrees: Double = 0.0
     @Published public var radians: Double = 0.0
