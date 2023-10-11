@@ -11,21 +11,27 @@ import UIKit
 import SwiftUI
 
 @available(iOS 13.0, *)
+@MainActor
 public class DeviceOrientationHelper: ObservableObject {
     public static var sharedHelper = DeviceOrientationHelper()
     
     public class func shared() -> DeviceOrientationHelper { // Singleton is recommended because an app should create only a single instance of the CMMotionManager class.
+        sharedHelper.startDeviceOrientationNotifier { deviceOrientation in
+            //print("did this")
+        }
         return self.sharedHelper
     }
     
-    @Published public var degrees: Double = 0.0
-    @Published public var radians: Double = 0.0
+    @Published public var deviceRotationDegrees: Double = 0.0
+    @Published public var deviceRotationRadians: Double = 0.0
+    @Published public var constantRotationDegrees: Double = 0.0
+    @Published public var constantRotationRadians: Double = 0.0
     @Published public var currentDeviceOrientation: UIDeviceOrientation = .portrait
     
-    private var motionLimit: Double // Smallers values makes it more sensitive to detect an orientation change. [0 to 1]
-    private var animationType: Animation
+    public var motionLimit: Double // Smallers values makes it more sensitive to detect an orientation change. [0 to 1]
+    public var animationType: Animation
     
-    private var supportedOrientations: [UIDeviceOrientation]
+    public var supportedOrientations: [UIDeviceOrientation]
     
     
     private let motionManager: CMMotionManager
@@ -46,6 +52,7 @@ public class DeviceOrientationHelper: ObservableObject {
         motionManager = CMMotionManager()
         motionManager.accelerometerUpdateInterval = updateInterval // Specify an update interval in seconds, personally found this value provides a good UX
         
+        motionManager.deviceMotionUpdateInterval = updateInterval
         queue = OperationQueue()
     }
     
@@ -58,7 +65,6 @@ public class DeviceOrientationHelper: ObservableObject {
         motionManager.startAccelerometerUpdates(to: queue) { (data, error) in
             if let accelerometerData = data {
                 var newDeviceOrientation: UIDeviceOrientation?
-                
                 if (accelerometerData.acceleration.x >= self.motionLimit) && self.supportedOrientations.contains(.landscapeLeft){
                     newDeviceOrientation = .landscapeLeft
                 }
@@ -87,6 +93,15 @@ public class DeviceOrientationHelper: ObservableObject {
                 }
             }
         }
+        
+        motionManager.startDeviceMotionUpdates(to: queue) { data, error in
+            if let gyroData = data{
+                DispatchQueue.main.async{
+                    self.constantRotationRadians = atan2(gyroData.gravity.x, gyroData.gravity.y) - Double.pi
+                    self.constantRotationDegrees = self.constantRotationRadians.toDegrees()
+                }
+            }
+        }
     }
     
     public func stopDeviceOrientationNotifier() {
@@ -99,29 +114,29 @@ public class DeviceOrientationHelper: ObservableObject {
                 
             case .portrait:
                 withAnimation(animationType){
-                    radians = 0.0
-                    degrees = radians.toDegrees()
+                    deviceRotationRadians = 0.0
+                    deviceRotationDegrees = deviceRotationRadians.toDegrees()
                 }
                 break
                 
             case .portraitUpsideDown:
                 withAnimation(animationType){
-                    radians = Double.pi
-                    degrees = radians.toDegrees()
+                    deviceRotationRadians = Double.pi
+                    deviceRotationDegrees = deviceRotationRadians.toDegrees()
                 }
                 break
                 
             case .landscapeLeft:
                 withAnimation(animationType){
-                    radians = -Double.pi / 2
-                    degrees = radians.toDegrees()
+                    deviceRotationRadians = -Double.pi / 2
+                    deviceRotationDegrees = deviceRotationRadians.toDegrees()
                 }
                 break
                 
             case .landscapeRight:
                 withAnimation(animationType){
-                    radians = Double.pi / 2
-                    degrees = radians.toDegrees()
+                    deviceRotationRadians = Double.pi / 2
+                    deviceRotationDegrees = deviceRotationRadians.toDegrees()
                 }
                 break
                 
