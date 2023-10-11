@@ -8,17 +8,17 @@
 import Foundation
 import SwiftUI
 
-@available(iOS 13.0, *)
+@available(iOS 14.0, *)
 extension View {
     public func orientationRotation() -> some View {
         self.modifier(OrientationRotationModifier())
     }
 }
 
-@available(iOS 13.0.0, *)
+@available(iOS 14.0.0, *)
 struct OrientationRotationModifier: ViewModifier {
     func body(content: Content) -> some View {
-        let radians = DeviceOrientationHelper.shared.radians
-        return content.rotationEffect(.radians(radians))
+        @StateObject var rotation = DeviceOrientationHelper.shared
+        return content.rotationEffect(.radians(rotation.radians))
     }
 }
